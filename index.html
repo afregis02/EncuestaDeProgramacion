@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Programación</title>
+    <link rel="stylesheet" href="./css/estilos.css">   
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="./js/script.js" defer></script>
+</head>
+<body>
+    <div id="app" class="container">
+        <h1>Encuesta de Programación</h1>
+        <div class="question">
+            ¿Te gusta programar?
+            <br>
+            <label><input type="radio" v-model="gustaProgramar" value="Sí" @change="verificarRespuesta"> Sí</label>
+            <label><input type="radio" v-model="gustaProgramar" value="No" @change="verificarRespuesta"> No</label>
+        </div>
+
+        <p v-if="mostrarMensaje" class="thank-you">Gracias por Contestar</p>
+
+
+
+        <div v-else>
+            <div class="question">
+                ¿Cuántos años llevas programando?
+                <br>
+                <input type="text" v-model="aniosProgramando">
+            </div>
+
+            <div class="question">
+                Cuéntanos tu experiencia programando:
+                <br>
+                <textarea v-model="experiencia" rows="4"></textarea>
+            </div>
+
+            <div class="question">
+                ¿Cuántos lenguajes de programación conoces?<br>
+                Ingrese los lenguajes uno por uno
+                <input type="text" v-model="lenguaje" @keyup.enter="agregar()">
+                <button class="btn" @click="agregar()">Agregar</button>
+                <ul>
+                    <li v-for="(lista, index) in lenguajes" :key="index">
+                        {{ lista }} 
+                        <button class="btn" @click="eliminar(index)">Eliminar</button>
+                    </li>
+                </ul>
+            </div>
+
+            <p class="result-btn" @click="mostrarResultados = true">Mostrar resultados</p>
+        </div>
+
+        <div v-if="mostrarResultados" class="resultados">
+            <h2>Resultados de la Encuesta</h2>
+            <p><strong>¿Te gusta programar?:</strong> {{ gustaProgramar }}</p>
+            <p><strong>Años programando:</strong> {{ aniosProgramando }}</p>
+            <p><strong>Experiencia:</strong> {{ experiencia }}</p>
+            <p><strong>Lenguajes conocidos:</strong></p>
+            <ul>
+                <li v-for="(lenguaje, index) in lenguajes" :key="index">{{ lenguaje }}</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
